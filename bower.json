@@ -1,0 +1,27 @@
+{
+  "name": "js-truncate-html",
+  "authors": [
+    "adarshk <adarshdch@gmail.com>"
+  ],
+  "description": "Truncate html with safe tags using pure javascript",
+  "main": "src/truncate-html.js",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "truncate",
+    "html"
+  ],
+  "license": "MIT",
+  "homepage": "homepageurl",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
