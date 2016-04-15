@@ -1,15 +1,13 @@
 {
   "name": "js-truncate-html",
   "authors": [
-    "adarshk <adarshdch@gmail.com>"
+    "adarshdch <adarshdch@gmail.com>"
   ],
   "description": "Truncate html with safe tags using pure javascript",
   "main": "src/js-truncate-html.js",
   "moduleType": [
     "amd",
-    "es6",
-    "globals",
-    "node"
+    "globals"
   ],
   "keywords": [
     "truncate",
