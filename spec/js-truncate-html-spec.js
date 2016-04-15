@@ -11,13 +11,19 @@ var htmlContentWithExpectedData = {
 			originalHtmlContent: 'It doesn\'t have any html tag.',
 			expectedLength: 18,
 			expectedHtmlContent: 'It doesn\'t have an'
-		},/*
+		},
 		{
 			description: 'should do normal text truncation - handle html encoded characters',
 			originalHtmlContent: 'It does &amp; not have any html tag.',
 			expectedLength: 17,
 			expectedHtmlContent: 'It does &amp; not hav'
-		},*/
+		},
+		{
+			description: 'should do normal text truncation - handle html encoded characters',
+			originalHtmlContent: 'It does & not have any html tag.',
+			expectedLength: 22,
+			expectedHtmlContent: 'It does &amp; not have any'
+		},
 		{
 			description: 'should do normal text truncation - return full content',
 			originalHtmlContent: 'It does not have any html tag.',
@@ -57,10 +63,10 @@ var htmlContentWithExpectedData = {
 			expectedHtmlContent: 'This is <br/> new line and <p>para</p>'
 		},
 		{
-			description: 'should have <br/> tag present',
-			originalHtmlContent: 'This is <br/> new line and <p>paragraph</p>',
+			description: 'should have <br/> tag present - support space in tags',
+			originalHtmlContent: 'This is <br   /> new line and <p>paragraph</p>',
 			expectedLength: 26,
-			expectedHtmlContent: 'This is <br/> new line and <p>para</p>'
+			expectedHtmlContent: 'This is <br   /> new line and <p>para</p>'
 		}
 	]
 };
@@ -74,7 +80,7 @@ describe("Test if required methods are defined", function() {
 
   	var truncater = new JSTruncateHtml({});
 
-  	it("should be able create object of JSTruncateHtml", function() {
+  	it("should be able to create object of JSTruncateHtml", function() {
     	expect(truncater).toBeDefined();
   	});
 

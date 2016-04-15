@@ -5,35 +5,36 @@ let JSTruncateHtml = function(options) {
 
 	return {
 
-		truncate: function(htmlContent, expectedLength) {
+		truncate: function(inputHtmlContent, expectedLength) {
 
 			let stack = [];
 			let output = '';
-			let tempDOM = document.createElement('textarea');
 			let outputLength = 0;
 			let exit = false;
 
-			tempDOM.innerHTML = htmlContent;
-			let encodedHtmlContent =  htmlContent;
+			let htmlContent =  this.decodeHtml(inputHtmlContent);
 			//expectedLength += htmlContent.
 
 			while (expectedLength > outputLength && exit == false) {
-		    	let tagStartIndex = encodedHtmlContent.indexOf('<');
+		    	let tagStartIndex = htmlContent.indexOf('<');
 
 		    	//If no further html tags are found slice and return remaining required string
 		    	if (tagStartIndex < 0) {
-		    		output += encodedHtmlContent.slice(0, expectedLength - outputLength);
+		    		output += this.encodeHtml(htmlContent.slice(0, expectedLength - outputLength));
 		    		break;
 		    	}
 				
 				//Extract normal content before tag
-				let fragment = encodedHtmlContent.slice(0, tagStartIndex);
+				let fragment = htmlContent.slice(0, tagStartIndex);
 
 				//Append fragment to output
 				let fragmentLength = fragment.length;
 				let requiredContentLength = expectedLength - outputLength;
+				
+
+
 				let outputFragment = fragment.slice(0, requiredContentLength);
-				output = output + outputFragment;
+				output = output + this.encodeHtml(outputFragment);
 				outputLength += outputFragment.length;
 
 				//Break if no tag found or expected length output found 
@@ -46,10 +47,10 @@ let JSTruncateHtml = function(options) {
 				}
 
 				//Store tag in stack
-				let tagEndIndex = encodedHtmlContent.indexOf('>');
+				let tagEndIndex = htmlContent.indexOf('>');
 
 				//Append tag in output
-				let tagFragment = encodedHtmlContent.slice(tagStartIndex, tagEndIndex + 1)
+				let tagFragment = htmlContent.slice(tagStartIndex, tagEndIndex + 1)
 				output += tagFragment;
 
 				if (tagFragment.indexOf('/') > -1) {
@@ -60,16 +61,22 @@ let JSTruncateHtml = function(options) {
 					stack.push(tag);
 				}
 
-
-				encodedHtmlContent = encodedHtmlContent.slice(tagEndIndex + 1);
-				
-
+				htmlContent = htmlContent.slice(tagEndIndex + 1);
 			}
 
 			return output;
-			tempDOM.innerHTML = '';
-			return tempDOM.appendChild(document.createTextNode(output)).parentNode.innerHTML;
-		}
+		},
+
+		decodeHtml: function (encodedHtml) {
+			let virualDOM = document.createElement("textarea");
+			virualDOM.innerHTML = encodedHtml;
+			return virualDOM.value;
+		},
+
+		encodeHtml: function (decodeHtml) {
+			let virtualDOM = document.createElement("div");
+			return virtualDOM.appendChild(document.createTextNode(decodeHtml)).parentNode.innerHTML;
+		},
 
 		
 
