@@ -118,7 +118,8 @@ describe("Test if truncation is working as expected for normal string", function
 			let testData = stringData[index];
 		
 			it(testData.description, function() {
-		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength)).toEqual(testData.expectedHtmlContent);
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength)).
+		    	toEqual(testData.expectedHtmlContent);
 	  		});
 		}		
 	});
@@ -133,6 +134,34 @@ describe("Test if truncation is working as expected for normal string", function
 			it(testData.description, function() {
 		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
 		    	.toEqual(testData.expectedHtmlContent + '...');
+	  		});
+		}		
+	});
+
+	describe("Test elipsisCharacter: '-'", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: true, elipsisCharacter: '-'});
+		let stringData = htmlContentWithExpectedData.stringData;
+
+		for (let index = 0; index < stringData.length; index++) {
+			let testData = stringData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent + '---');
+	  		});
+		}		
+	});
+
+	describe("Test elipsisLength: '-'", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: true, elipsisLength: 5, elipsisCharacter: '-'});
+		let stringData = htmlContentWithExpectedData.stringData;
+
+		for (let index = 0; index < stringData.length; index++) {
+			let testData = stringData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent + '-----');
 	  		});
 		}		
 	});
@@ -153,7 +182,6 @@ describe("Test if truncation is working as expected for html content", function(
 		    	.toEqual(testData.expectedHtmlContent);
 	  		});
 		}
-		
 	});
 
 	describe("Test includeElipsis: true", function(){
@@ -168,7 +196,34 @@ describe("Test if truncation is working as expected for html content", function(
 		    	.toEqual(testData.expectedHtmlContent + '...');
 	  		});
 		}
+	});
+
+	describe("Test elipsisCharacter: '-'", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: true, elipsisCharacter: '-'});
+		let htmlData = htmlContentWithExpectedData.htmlData;
+
+		for (let index = 0; index < htmlData.length; index++) {
+			let testData = htmlData[index];
 		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent + '---');
+	  		});
+		}		
+	});
+
+	describe("Test elipsisLength: '-'", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: true, elipsisLength: 5, elipsisCharacter: '-'});
+		let htmlData = htmlContentWithExpectedData.htmlData;
+
+		for (let index = 0; index < htmlData.length; index++) {
+			let testData = htmlData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent + '-----');
+	  		});
+		}		
 	});
 
 });
