@@ -4,7 +4,7 @@
     "adarshk <adarshdch@gmail.com>"
   ],
   "description": "Truncate html with safe tags using pure javascript",
-  "main": "src/truncate-html.js",
+  "main": "src/js-truncate-html.js",
   "moduleType": [
     "amd",
     "es6",
@@ -16,7 +16,7 @@
     "html"
   ],
   "license": "MIT",
-  "homepage": "homepageurl",
+  "homepage": "https://github.com/adarshdch/js-truncate-html",
   "ignore": [
     "**/.*",
     "node_modules",
