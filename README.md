@@ -14,7 +14,7 @@ $ var truncater = new JsTruncateHtml({includeElipsis: true, elipsisLength: 5, el
 $ truncater.truncate("Hello <b>World !!!</b>", 13);
 ```
 
-Output: Hello <b>World !
+Output: Hello <b>World !</b>
 
 ### RequireJS Implementation
 
@@ -23,7 +23,7 @@ $ var MyTruncater = require('vendor/js-truncate-html/src/js-truncate-html');
 $ MyTruncater.truncate("Hello <b>World !!!</b>", 13);
 ```
 
-Output: Hello <b>World !
+Output: Hello <b>World !</b>
 
 
 License
