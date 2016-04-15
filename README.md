@@ -9,15 +9,19 @@ Truncate html content
 
 ### Pure Javascript Implementation
 
-var truncater = new JsTruncateHtml({includeElipsis: true, elipsisLength: 5, elipsisCharacter: '-'});
-```truncater.truncate("Hello <b>World !!!</b>", 13);```
+```sh
+$ var truncater = new JsTruncateHtml({includeElipsis: true, elipsisLength: 5, elipsisCharacter: '-'});
+$ truncater.truncate("Hello <b>World !!!</b>", 13);
+```
 
 Output: Hello <b>World !
 
 ### RequireJS Implementation
 
-```var MyTruncater = require('vendor/js-truncate-html/src/js-truncate-html');```
-```MyTruncater.truncate("Hello <b>World !!!</b>", 13);```
+```sh
+$ var MyTruncater = require('vendor/js-truncate-html/src/js-truncate-html');
+$ MyTruncater.truncate("Hello <b>World !!!</b>", 13);
+```
 
 Output: Hello <b>World !
 
