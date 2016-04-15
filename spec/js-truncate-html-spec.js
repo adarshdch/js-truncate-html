@@ -67,6 +67,18 @@ var htmlContentWithExpectedData = {
 			originalHtmlContent: 'This is <br   /> new line and <p>paragraph</p>',
 			expectedLength: 26,
 			expectedHtmlContent: 'This is <br   /> new line and <p>para</p>'
+		},
+		{
+			description: 'should truncte nested html',
+			originalHtmlContent: 'This <div>div has  <p><b>bold</b> paragraph</p></div>',
+			expectedLength: 23,
+			expectedHtmlContent: 'This <div>div has  <p><b>bold</b> para</p></div>'
+		},
+		{
+			description: 'should truncte multiple nested html',
+			originalHtmlContent: 'This <div>div has  <p><b>bold</b> paragraph</p></div><div>another div</div>',
+			expectedLength: 39,
+			expectedHtmlContent: 'This <div>div has  <p><b>bold</b> paragraph</p></div><div>another div</div>'
 		}
 	]
 };

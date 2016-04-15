@@ -16,52 +16,65 @@ let JSTruncateHtml = function(options) {
 			//expectedLength += htmlContent.
 
 			while (expectedLength > outputLength && exit == false) {
-		    	let tagStartIndex = htmlContent.indexOf('<');
+		    	let openingTagStartIndex = htmlContent.indexOf('<');
+		    	let openingTagEndIndex = htmlContent.indexOf('>');
 
 		    	//If no further html tags are found slice and return remaining required string
-		    	if (tagStartIndex < 0) {
+		    	if (openingTagStartIndex < 0) {
 		    		output += this.encodeHtml(htmlContent.slice(0, expectedLength - outputLength));
 		    		break;
-		    	}
-				
-				//Extract normal content before tag
-				let fragment = htmlContent.slice(0, tagStartIndex);
-
-				//Append fragment to output
-				let fragmentLength = fragment.length;
-				let requiredContentLength = expectedLength - outputLength;
-				
+		    	} else if (openingTagStartIndex > 0) {
+					//Extract text fragment before start tag
+					let textFragment = htmlContent.slice(0, openingTagStartIndex);
 
 
-				let outputFragment = fragment.slice(0, requiredContentLength);
-				output = output + this.encodeHtml(outputFragment);
-				outputLength += outputFragment.length;
+					//Append text fragment to output
+					let textFragmentLength = textFragment.length;
+					let requiredContentLength = expectedLength - outputLength;
+					let outputFragment = textFragment.slice(0, requiredContentLength);
+					output = output + this.encodeHtml(outputFragment);
+					outputLength += outputFragment.length;
 
-				//Break if no tag found or expected length output found 
-				if (tagStartIndex < 0 || expectedLength <= outputLength) {
-					while(stack.length > 0) {
+					/*if (stack.length > 0) {
 						output = output + '</' + stack.pop() + '>';
-					}
+					}*/
 
+					htmlContent = htmlContent.slice(openingTagStartIndex);
+					continue;
+		    	}
+
+		    	//Check if htmlContent start wtih closing tag
+		    	if (htmlContent.indexOf('</') == openingTagStartIndex) {
+		    		output = output + '</' + stack.pop() + '>';
+		    		htmlContent = htmlContent.slice(openingTagEndIndex + 1);
+		    		continue;
+		    	}
+
+		    	//Break if expected length output found 
+				if (expectedLength <= outputLength) {
 					break;
 				}
 
-				//Store tag in stack
-				let tagEndIndex = htmlContent.indexOf('>');
+				//Get opening tag fragment
+				let openingTagFragment = htmlContent.slice(openingTagStartIndex, openingTagEndIndex + 1)
+				//Append opening tag fragment to output
+				output += openingTagFragment;
 
-				//Append tag in output
-				let tagFragment = htmlContent.slice(tagStartIndex, tagEndIndex + 1)
-				output += tagFragment;
-
-				if (tagFragment.indexOf('/') > -1) {
+				//Check if tag in closed like </br>
+				if (openingTagFragment.indexOf('/') > -1) {
+					
 
 				} else {
 					//Store tags to be closed at the end
-					let tag = tagFragment.slice(1, tagFragment.indexOf(' '));
-					stack.push(tag);
+					let tagName = openingTagFragment.slice(1, openingTagFragment.indexOf(' '));
+					stack.push(tagName);
 				}
 
-				htmlContent = htmlContent.slice(tagEndIndex + 1);
+				htmlContent = htmlContent.slice(openingTagEndIndex + 1);
+			}
+
+			while(stack.length > 0) {
+				output = output + '</' + stack.pop() + '>';
 			}
 
 			return output;
