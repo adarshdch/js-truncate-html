@@ -1,6 +1,12 @@
 var htmlContentWithExpectedData = {
 	stringData: [
 		{
+			description: 'should return empty for -ve length',
+			originalHtmlContent: 'It does not have any html tag.',
+			expectedLength: -1,
+			expectedHtmlContent: ''
+		},
+		{
 			description: 'should do normal text truncation',
 			originalHtmlContent: 'It does not have any html tag.',
 			expectedLength: 15,
@@ -86,13 +92,13 @@ var htmlContentWithExpectedData = {
 
 describe("Test if required methods are defined", function() {
 
-  	it("should define JSTruncateHtml", function() {
-    	expect(JSTruncateHtml).toBeDefined();
+  	it("should define JsTruncateHtml", function() {
+    	expect(JsTruncateHtml).toBeDefined();
   	});
 
-  	var truncater = new JSTruncateHtml({});
+  	var truncater = new JsTruncateHtml({});
 
-  	it("should be able to create object of JSTruncateHtml", function() {
+  	it("should be able to create object of JsTruncateHtml", function() {
     	expect(truncater).toBeDefined();
   	});
 
@@ -104,30 +110,65 @@ describe("Test if required methods are defined", function() {
 
 describe("Test if truncation is working as expected for normal string", function() {
 
-	let truncater = new JSTruncateHtml({});
-	let stringData = htmlContentWithExpectedData.stringData;
+	describe("Test includeElipsis: false", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: false});
+		let stringData = htmlContentWithExpectedData.stringData;
 
-	for (let index = 0; index < stringData.length; index++) {
-		let testData = stringData[index];
-	
-		it(testData.description, function() {
-	    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength)).toEqual(testData.expectedHtmlContent);
-  		});
-	}
+		for (let index = 0; index < stringData.length; index++) {
+			let testData = stringData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength)).toEqual(testData.expectedHtmlContent);
+	  		});
+		}		
+	});
+
+	describe("Test includeElipsis: true", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: true});
+		let stringData = htmlContentWithExpectedData.stringData;
+
+		for (let index = 0; index < stringData.length; index++) {
+			let testData = stringData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent + '...');
+	  		});
+		}		
+	});
 
 });
 
 describe("Test if truncation is working as expected for html content", function() {
 
-	let truncater = new JSTruncateHtml({});
-	let htmlData = htmlContentWithExpectedData.htmlData;
+	describe("Test includeElipsis: false", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: false});
+		let htmlData = htmlContentWithExpectedData.htmlData;
 
-	for (let index = 0; index < htmlData.length; index++) {
-		let testData = htmlData[index];
-	
-		it(testData.description, function() {
-	    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength)).toEqual(testData.expectedHtmlContent);
-  		});
-	}
+		for (let index = 0; index < htmlData.length; index++) {
+			let testData = htmlData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent);
+	  		});
+		}
+		
+	});
+
+	describe("Test includeElipsis: true", function(){
+		let truncater = new JsTruncateHtml({includeElipsis: true});
+		let htmlData = htmlContentWithExpectedData.htmlData;
+
+		for (let index = 0; index < htmlData.length; index++) {
+			let testData = htmlData[index];
+		
+			it(testData.description, function() {
+		    	expect(truncater.truncate(testData.originalHtmlContent, testData.expectedLength))
+		    	.toEqual(testData.expectedHtmlContent + '...');
+	  		});
+		}
+		
+	});
 
 });
